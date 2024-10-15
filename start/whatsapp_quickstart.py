@@ -1,5 +1,5 @@
 import json
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 import os
 import requests
 import aiohttp
@@ -9,7 +9,10 @@ import asyncio
 # Load environment variables
 # --------------------------------------------------------------
 
-load_dotenv()
+# dotenv_path = find_dotenv()
+dotenv_path = "./.env"
+load_dotenv(dotenv_path)
+
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 RECIPIENT_WAID = os.getenv("RECIPIENT_WAID")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
@@ -84,7 +87,7 @@ def send_message(data):
 
 
 data = get_text_message_input(
-    recipient=RECIPIENT_WAID, text="Hello, this is a test message."
+    recipient=RECIPIENT_WAID, text="is this thing on?"
 )
 
 response = send_message(data)
@@ -92,7 +95,6 @@ response = send_message(data)
 # --------------------------------------------------------------
 # Send a custom text WhatsApp message asynchronously
 # --------------------------------------------------------------
-
 
 # Does not work with Jupyter!
 async def send_message(data):
