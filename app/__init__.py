@@ -10,6 +10,8 @@ def create_app():
     load_configurations(app)
     configure_logging()
 
+    print("Hi! create_app() has been called.")
+
     # Import and register blueprints, if any
     app.register_blueprint(webhook_blueprint)
 
