@@ -7,15 +7,17 @@ import logging
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_ASSISTANT_ID = os.getenv("OPENAI_ASSISTANT_ID")
+# OPENAI_ASSISTANT_ID = os.getenv("OPENAI_ASSISTANT_ID")
 client = OpenAI(api_key=OPENAI_API_KEY)
-
 
 def upload_file(path):
     # Upload a file with an "assistants" purpose
     file = client.files.create(
-        file=open("../../data/airbnb-faq.pdf", "rb"), purpose="assistants"
+        # run from the root directory of the project for this to be correct
+        file=open("./data/vumbafaq.pdf", "rb"), purpose="assistants"
     )
+
+    return file
 
 
 def create_assistant(file):
@@ -24,13 +26,21 @@ def create_assistant(file):
     """
     assistant = client.beta.assistants.create(
         name="WhatsApp AirBnb Assistant",
-        instructions="You're a helpful WhatsApp assistant that can assist guests that are staying in our Paris AirBnb. Use your knowledge base to best respond to customer queries. If you don't know the answer, say simply that you cannot help with question and advice to contact the host directly. Be friendly and funny.",
-        tools=[{"type": "retrieval"}],
-        model="gpt-4-1106-preview",
-        file_ids=[file.id],
+        instructions="You're a helpful WhatsApp assistant that can assist learners and parents who have questions about the online tutoring service Vumba Online. Use your knowledge base to best respond to customer queries. If you don't know the answer, say simply that you cannot help with question and advice to visit the website https://www.vumbaonline.co.za/. Be friendly and funny.",
+        tools=[{"type": "code_interpreter"}],
+        model="gpt-3.5-turbo",
+        tool_resources={
+            "code_interpreter": {
+            "file_ids": [file.id]
+            }
+        }
     )
     return assistant
 
+# run the functions
+file = upload_file("./nomatter")
+assistant = create_assistant(file)
+print(assistant)
 
 # Use context manager to ensure the shelf file is closed properly
 def check_if_thread_exists(wa_id):

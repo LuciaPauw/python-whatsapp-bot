@@ -52,7 +52,6 @@ def handle_message():
         logging.error("Failed to decode JSON")
         return jsonify({"status": "error", "message": "Invalid JSON provided"}), 400
 
-
 # Required webhook verifictaion for WhatsApp
 def verify():
     # Parse params from the webhook verification request
@@ -74,7 +73,6 @@ def verify():
         # Responds with '400 Bad Request' if verify tokens do not match
         logging.info("MISSING_PARAMETER")
         return jsonify({"status": "error", "message": "Missing parameters"}), 400
-
 
 @webhook_blueprint.route("/webhook", methods=["GET"])
 def webhook_get():
