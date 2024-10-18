@@ -25,7 +25,7 @@ def get_text_message_input(recipient, text):
     )
 
 
-def generate_response(response):
+# def generate_response(response):
     # Return text in uppercase
     return response.upper()
 
